@@ -201,6 +201,7 @@ public class LinkedList<T>
         insertAtTail(el.getData());
         el = el.getNext();
       }
+      ll.clear();
     }
 
     /*
