@@ -1,6 +1,6 @@
 /*
- * Name:
- * Student ID:
+ * Name: Dobreva Iva Yordanova
+ * Student ID: 2016147551
  */
 
 public class CircularLinkedList<T>
@@ -15,7 +15,8 @@ public class CircularLinkedList<T>
      */
     public CircularLinkedList()
     {
-
+      size = 0;
+      head = null;
     }
 
     /*
@@ -38,7 +39,22 @@ public class CircularLinkedList<T>
      */
     public void insert(int index, T data)
     {
+      if (isEmpty) {
+        insertAtHead(data);
+      } else if ( index >= 0 || index <= size ) {
+        if (index == 0 ) {
+          insertAtHead(data);
+        } else if (index == size) {
+          insertAtTail(data);
+        } else {
+          Node<T> el = new Node<T>(data);
+          Node<T> prevEl = getElementAtIndex(index-1);
 
+          el.setPrev(оld);
+          el.setNext(prevEl.getNext());
+          prevEl.setNext(el);
+        }
+      }
     }
 
     /*
@@ -52,6 +68,17 @@ public class CircularLinkedList<T>
      */
     public void insertAtHead(T data)
     {
+      Node<T> el = new Node<T>(data);
+
+      if (!isEmpty) {
+        el.setPrev(head.getPrev());
+        el.setNext(head);
+        head.setPrev(el);
+        el.setNext(head);
+        el = head;
+      } else {
+        head = el;
+      }
 
     }
 
@@ -66,7 +93,16 @@ public class CircularLinkedList<T>
      */
     public void insertAtTail(T data)
     {
+      Node<T> el = new Node<T>(data);
 
+      if ( !isEmpty ) {
+        Node<T> tail =  head.getPrev();
+        el.setPrev(tail);
+        el.setNext(head);
+        head.setPrev(el);
+      } else {
+        insertAtHead(data);
+      }
     }
 
     /*
@@ -80,7 +116,21 @@ public class CircularLinkedList<T>
      */
     public void remove(T data)
     {
+      if( !isEmpty() ) {
+        Node<T> el = head;
+        Node<T> prev, next;
 
+        for(int idx=0; idx < size; idx++) {
+          if ( data.equals(el.getData())) {
+            prev = el.getPrev();
+            next = el.getNext();
+            prev.setNext(nex);
+            next.setPrev(prev);
+            size--;
+            break;
+          }
+        }
+      }
     }
 
     /*
@@ -94,7 +144,22 @@ public class CircularLinkedList<T>
      */
     public void removeIndex(int index)
     {
+      int idx = 0;
+      Node<T> el = head;
 
+      while ( el != null ) {
+        if ( idx == index) {
+          Node<T> prev = el.getPrev();
+          Node<T> next = el.getNext();
+
+          prev.setNext(next);
+          next.setPrev(prev);
+          size--;
+          break;
+        }
+        el = el.getNext;
+        idx++;
+      }
     }
 
     /*
@@ -104,7 +169,15 @@ public class CircularLinkedList<T>
      */
     public void removeFromHead()
     {
+      Node<T> el = head;
+      if (el != null ) {
+        Node<T> prev = head.getPrev();
 
+        prev.setNext(head.getNext());
+        head = el.getNext();
+        head.setPrev(prev);
+        size--;
+      }
     }
 
     /*
@@ -114,7 +187,14 @@ public class CircularLinkedList<T>
      */
     public void removeFromTail()
     {
+      if (!isEmpty()) {
+        Node<T> tail = head.getPrev();
 
+        head.setPrev(tail.getPrev());
+        tail = head.getPrev();
+        tail.setNext(head);
+        size--;
+      }
     }
 
     /*
@@ -128,6 +208,14 @@ public class CircularLinkedList<T>
      */
     public boolean contains(T data)
     {
+        Node<T> el = head;
+
+        while( el != null ) {
+          if (data.equals(el.getData())) {
+            return true;
+          }
+          el = el.getNext();
+        }
         return false;
     }
 
@@ -143,6 +231,17 @@ public class CircularLinkedList<T>
      */
     public int getIndex(T data)
     {
+        Node<T> el = head;
+        int idx = 0;
+
+        while ( el != null ) {
+          if(data.equals(el.getData()) ) {
+            return idx;
+          }
+          el = el.getNext();
+          idx++;
+        }
+
         return -1;
     }
 
@@ -155,7 +254,15 @@ public class CircularLinkedList<T>
      */
     public Node<T> getElementAtIndex(int index)
     {
-        return null;
+        Node<T> el = head;
+        int idx = 0;
+
+        while(el != null ) {
+          el = el.getNext();
+          idx++;
+        }
+
+        return el;
     }
 
     /*
@@ -165,7 +272,8 @@ public class CircularLinkedList<T>
      */
     public void clear()
     {
-
+      head = 0;
+      size = 0;
     }
 
     /*
@@ -175,6 +283,9 @@ public class CircularLinkedList<T>
      */
     public boolean isEmpty()
     {
+        if ( size == 0 ) {
+          return true;
+        }
         return false;
     }
 
@@ -185,7 +296,7 @@ public class CircularLinkedList<T>
      */
     public Node<T> getHead()
     {
-        return null;
+        return head;
     }
 
     /*
@@ -195,7 +306,7 @@ public class CircularLinkedList<T>
      */
     public int getSize()
     {
-        return -1;
+        return size;
     }
 
     /*
@@ -210,7 +321,13 @@ public class CircularLinkedList<T>
      */
     public String toString()
     {
-        return "";
+        Node<T> el = head;
+        String ll = "";
+
+        while (el != null ) {
+          ll = ll + " " + el.getData();
+        }
+        return ll;
     }
 
     /*
