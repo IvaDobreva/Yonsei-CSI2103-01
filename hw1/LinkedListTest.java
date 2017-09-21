@@ -19,9 +19,9 @@ public class LinkedListTest
       LinkedList<String> kk = new LinkedList<String>();
       String x = "Random";
 
-      kk.insertAtHead("Iva");
-      kk.insert(1, "Yordanova");
-      kk.insert(2, "Dobreva");
+    //  kk.insertAtHead("Iva");
+    //  kk.insert(1, "Yordanova");
+    //  kk.insert(2, "Dobreva");
 
       ll.insertAtHead("Data");
       System.out.println(ll.getSize());
@@ -46,6 +46,8 @@ public class LinkedListTest
       ll.insertAtTail("Twitter");
       System.out.println(ll.getSize());
       System.out.println(ll.toString());
+      kk.joinLists(ll);
+      System.out.println("List2" + kk.toString());
 
       ll.joinLists(kk);
       System.out.println(ll.toString());

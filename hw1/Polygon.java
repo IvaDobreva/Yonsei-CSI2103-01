@@ -1,6 +1,6 @@
 /*
- * Name:
- * Student ID:
+ * Name: Dobreva Iva Yordanova
+ * Student ID: 2016147551
  */
 
 public class Polygon
@@ -14,7 +14,7 @@ public class Polygon
      */
     public Polygon()
     {
-
+      boundary = null;
     }
 
     /*
@@ -29,7 +29,7 @@ public class Polygon
      */
     public void addPoint(Point p)
     {
-
+      boundary.insertAtTail(p);
     }
 
     /*
@@ -39,7 +39,7 @@ public class Polygon
      */
     public int getSize()
     {
-        return -1;
+        return boundary.getSize();
     }
 
     /*
@@ -67,7 +67,7 @@ public class Polygon
      */
     public boolean pointInPolygon(Point p)
     {
-        return false;
+        return boundary.contains(p);
     }
 }
 
