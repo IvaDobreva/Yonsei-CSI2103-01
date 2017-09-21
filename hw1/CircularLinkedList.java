@@ -39,7 +39,7 @@ public class CircularLinkedList<T>
      */
     public void insert(int index, T data)
     {
-      if (isEmpty) {
+      if (isEmpty()) {
         insertAtHead(data);
       } else if ( index >= 0 || index <= size ) {
         if (index == 0 ) {
@@ -50,7 +50,7 @@ public class CircularLinkedList<T>
           Node<T> el = new Node<T>(data);
           Node<T> prevEl = getElementAtIndex(index-1);
 
-          el.setPrev(оld);
+          el.setPrev(prevEl);
           el.setNext(prevEl.getNext());
           prevEl.setNext(el);
         }
@@ -70,7 +70,7 @@ public class CircularLinkedList<T>
     {
       Node<T> el = new Node<T>(data);
 
-      if (!isEmpty) {
+      if (!isEmpty()) {
         el.setPrev(head.getPrev());
         el.setNext(head);
         head.setPrev(el);
@@ -95,7 +95,7 @@ public class CircularLinkedList<T>
     {
       Node<T> el = new Node<T>(data);
 
-      if ( !isEmpty ) {
+      if ( !isEmpty() ) {
         Node<T> tail =  head.getPrev();
         el.setPrev(tail);
         el.setNext(head);
@@ -124,7 +124,7 @@ public class CircularLinkedList<T>
           if ( data.equals(el.getData())) {
             prev = el.getPrev();
             next = el.getNext();
-            prev.setNext(nex);
+            prev.setNext(next);
             next.setPrev(prev);
             size--;
             break;
@@ -157,7 +157,7 @@ public class CircularLinkedList<T>
           size--;
           break;
         }
-        el = el.getNext;
+        el = el.getNext();
         idx++;
       }
     }
@@ -272,7 +272,7 @@ public class CircularLinkedList<T>
      */
     public void clear()
     {
-      head = 0;
+      head = null;
       size = 0;
     }
 
