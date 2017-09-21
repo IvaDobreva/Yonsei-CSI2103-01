@@ -19,9 +19,9 @@ public class LinkedListTest
       LinkedList<String> kk = new LinkedList<String>();
       String x = "Random";
 
-    //  kk.insertAtHead("Iva");
-    //  kk.insert(1, "Yordanova");
-    //  kk.insert(2, "Dobreva");
+      kk.insertAtHead("Iva");
+      kk.insert(1, "Yordanova");
+      kk.insert(2, "Dobreva");
 
       ll.insertAtHead("Data");
       System.out.println(ll.getSize());

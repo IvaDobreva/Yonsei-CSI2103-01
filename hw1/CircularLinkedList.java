@@ -53,6 +53,7 @@ public class CircularLinkedList<T>
           el.setPrev(prevEl);
           el.setNext(prevEl.getNext());
           prevEl.setNext(el);
+          size++;
         }
       }
     }
@@ -74,10 +75,13 @@ public class CircularLinkedList<T>
         el.setPrev(head.getPrev());
         el.setNext(head);
         head.setPrev(el);
-        el.setNext(head);
         el = head;
+        size++;
       } else {
         head = el;
+        head.setNext(null);
+        head.setPrev(null);
+        size++;
       }
 
     }
@@ -95,11 +99,21 @@ public class CircularLinkedList<T>
     {
       Node<T> el = new Node<T>(data);
 
-      if ( !isEmpty() ) {
-        Node<T> tail =  head.getPrev();
-        el.setPrev(tail);
-        el.setNext(head);
-        head.setPrev(el);
+      if( !isEmpty() ) {
+        Node<T> tail = head.getPrev();
+
+        if(tail != null ){
+          tail.setNext(el);
+          el.setPrev(tail);
+          el.setNext(head);
+          head.setPrev(el);
+        } else {
+          el.setNext(head);
+          el.setPrev(head);
+          head.setNext(el);
+          head.setPrev(el);
+        }
+        size++;
       } else {
         insertAtHead(data);
       }
@@ -122,6 +136,13 @@ public class CircularLinkedList<T>
 
         for(int idx=0; idx < size; idx++) {
           if ( data.equals(el.getData())) {
+            if(idx == 0) {
+              removeFromHead();
+              break;
+            } else if(idx == size-1) {
+              removeFromTail();
+              break;
+            }
             prev = el.getPrev();
             next = el.getNext();
             prev.setNext(next);
@@ -129,6 +150,7 @@ public class CircularLinkedList<T>
             size--;
             break;
           }
+          el = el.getNext();
         }
       }
     }
@@ -144,21 +166,22 @@ public class CircularLinkedList<T>
      */
     public void removeIndex(int index)
     {
-      int idx = 0;
-      Node<T> el = head;
-
-      while ( el != null ) {
-        if ( idx == index) {
-          Node<T> prev = el.getPrev();
-          Node<T> next = el.getNext();
-
-          prev.setNext(next);
-          next.setPrev(prev);
-          size--;
-          break;
+      if(index >= 0 && index < size) {
+        if(index == 0 ) {
+          removeFromHead();
+          return;
+        } else if( index == size-1) {
+          removeFromTail();
+          return;
         }
-        el = el.getNext();
-        idx++;
+
+        Node<T> el = getElementAtIndex(index);
+        Node<T> prev = el.getPrev();
+        Node<T> next = el.getNext();
+
+        prev.setNext(next);
+        next.setPrev(prev);
+        size--;
       }
     }
 
@@ -169,15 +192,23 @@ public class CircularLinkedList<T>
      */
     public void removeFromHead()
     {
-      Node<T> el = head;
-      if (el != null ) {
-        Node<T> prev = head.getPrev();
+      if (!isEmpty()) {
+        Node<T> el = head;
+        if (size == 1) {
+          head = null;
+          size = 0;
+          return;
+        }
 
-        prev.setNext(head.getNext());
-        head = el.getNext();
-        head.setPrev(prev);
+        Node<T> prev = head.getPrev();
+        Node<T> next = head.getNext();
+
+        head = next;
+        next.setPrev(prev);
+        prev.setNext(next);
         size--;
       }
+
     }
 
     /*
@@ -188,12 +219,15 @@ public class CircularLinkedList<T>
     public void removeFromTail()
     {
       if (!isEmpty()) {
-        Node<T> tail = head.getPrev();
-
-        head.setPrev(tail.getPrev());
-        tail = head.getPrev();
-        tail.setNext(head);
-        size--;
+        if (size == 1) {
+          removeFromHead();
+        } else {
+          Node<T> tail = head.getPrev();
+          Node<T> prev = tail.getPrev();
+          prev.setNext(head);
+          head.setPrev(prev);
+          size--;
+        }
       }
     }
 
@@ -210,7 +244,7 @@ public class CircularLinkedList<T>
     {
         Node<T> el = head;
 
-        while( el != null ) {
+        for(int idx =0; idx < size; idx++) {
           if (data.equals(el.getData())) {
             return true;
           }
@@ -232,14 +266,12 @@ public class CircularLinkedList<T>
     public int getIndex(T data)
     {
         Node<T> el = head;
-        int idx = 0;
 
-        while ( el != null ) {
-          if(data.equals(el.getData()) ) {
+        for(int idx=0; idx<size; idx++) {
+          if(data.equals(el.getData())) {
             return idx;
           }
           el = el.getNext();
-          idx++;
         }
 
         return -1;
@@ -255,11 +287,9 @@ public class CircularLinkedList<T>
     public Node<T> getElementAtIndex(int index)
     {
         Node<T> el = head;
-        int idx = 0;
 
-        while(el != null ) {
+        for(int idx=0; idx<index-1; idx++) {
           el = el.getNext();
-          idx++;
         }
 
         return el;
@@ -324,8 +354,9 @@ public class CircularLinkedList<T>
         Node<T> el = head;
         String ll = "";
 
-        while (el != null ) {
+        for(int idx =0; idx<size; idx++) {
           ll = ll + " " + el.getData();
+          el = el.getNext();
         }
         return ll;
     }

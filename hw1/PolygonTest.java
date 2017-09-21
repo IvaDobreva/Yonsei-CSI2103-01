@@ -20,8 +20,7 @@ public class PolygonTest
         p.addPoint(new Point(1,0));
         p.addPoint(new Point(1,1));
         p.addPoint(new Point(0,1));
-
-        Point testPoint1 = new Point(.5,.5);
+        Point testPoint1 = new Point(.5,0);
         Point testPoint2 = new Point(3,10);
 
         assertTrue(p.pointInPolygon(testPoint1));
