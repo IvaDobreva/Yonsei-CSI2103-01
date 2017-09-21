@@ -286,6 +286,11 @@ public class CircularLinkedList<T>
      */
     public Node<T> getElementAtIndex(int index)
     {
+
+      if(index < 0 || index >= getSize()) {
+        return null;
+      }
+      
         Node<T> el = head;
 
         for(int idx=0; idx<index-1; idx++) {

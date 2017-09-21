@@ -72,6 +72,9 @@ public class Polygon
         double x1, x2, y1, y2, y, x;
         x  = p.getX();        y  = p.getY();
 
+        if(boundary.getSize() < 3 ) {
+          return false;
+        }
 
         for(int idx = 0; idx < getSize(); idx++) {
           if (idx == getSize() -1 ) {
@@ -85,11 +88,10 @@ public class Polygon
           x1 = vert1.getX();    y1 = vert1.getY();
           x2 = vert2.getX();    y2 = vert2.getY();
 
+          // NOT to consider 3 and 4
           if((x==x1 && y==y1) || (x==x2 && y==y2)) {
             return true;
           }
-
-          
 
           if((y>=y1 && y<=y2) || (y<=y1 && y>=y2) ) {
             if ((x <= x1) || (x <= x2)) {
@@ -100,7 +102,6 @@ public class Polygon
         }
 
         if (count%2 != 0) {
-          System.out.println("true");
           return true;
         }
         return false;
